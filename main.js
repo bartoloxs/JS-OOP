@@ -1,34 +1,34 @@
+function StopWatch() {
+	let startTime = 0;
+	let duration = 0;
+	let running = false;
 
-// Constructor function
-function Circle(radius) {
-	// this reference the object is executing this piece of code
-	this.radius = radius;
-	let defaultLocation = { x: 1, y: 0 };
-
-	this.getDefaultLocation = function () {
-		return getDefaultLocation;
-	}
-
-	this.draw = function () {
-		console.log('draw from Constructor Function');
-	}
-
-	Object.defineProperty(this, 'defaultLocation', {
-		get: function () {
-			return defaultLocation;
-		},
-		set: function (value) {
-			// code some validation
-			if (!value.x || !value.y) {
-				throw new Error('Invalid location');
-			}
-			defaultLocation = value;
+	this.start = function () {
+		if (running) {
+			throw new Error('Already running');
 		}
-	});
+		running = true;
+		startTime = new Date();
+	}
 
-	// the return is implicit in the new Keyword when circle is created
+	this.stop = function () {
+		if (!running) {
+			throw new Error('Already stopped');
+		}
+		running = false;
+		duration = duration + ((new Date().getTime() - startTime.getTime()) / 1000);
+		console.log(duration);
+	}
+
+	this.reset = function () {
+		startTime = 0;
+		duration = 0;
+		running = false;
+	}
+
+	Object.defineProperty(this, 'duration', {
+		get: function () {
+			return running ? (new Date().getTime() - startTime.getTime()) / 1000 : duration;
+		}
+	})
 }
-
-const circle = new Circle(1);
-circle.defaultLocation;
-circle.draw();
